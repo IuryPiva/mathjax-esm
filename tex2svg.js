@@ -5,7 +5,7 @@ MathJax = {
   tex: { packages: ["base", "autoload", "require", "ams", "newcommand"] },
   svg: { fontCache: "none" },
   startup: { typeset: false },
-};
+}
 
 import "mathjax-full/components/src/startup/lib/startup.js"
 import "mathjax-full/components/src/core/core.js"
@@ -21,8 +21,8 @@ MathJax.loader.preLoad(
   "input/tex",
   "output/svg",
   "output/svg/fonts/tex"
-);
-MathJax.config.startup.ready();
+)
+MathJax.config.startup.ready()
 
 export const tex2svg = ({ formula, display, em, ex, containerWidth }) => {
   const node = MathJax.tex2svg(formula, {
@@ -30,10 +30,12 @@ export const tex2svg = ({ formula, display, em, ex, containerWidth }) => {
     em: em ?? 16,
     ex: ex ?? 8,
     containerWidth: containerWidth ?? 80 * 16,
-  });
+  })
 
   const svg = MathJax.startup.adaptor
     .outerHTML(node)
+    .replace(/^<mjx-container[^<>]*>/, "")
+    .replace(/<\/mjx-container>$/, "")
 
   return svg
-};
+}
